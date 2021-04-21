@@ -1,0 +1,12 @@
+version: '2'
+services:
+   afthem:
+      image: apifortress/bloodhound:latest
+      volumes:
+      - ./etc:/opt/bloodhound/etc
+      - ./docker_log:/opt/bloodhound/log
+      - ./modules:/opt/bloodhound/modules
+      ports:
+      - 8090:8080/tcp
+      environment:
+      - memorySettings=-Xms1024m -Xmx1024m

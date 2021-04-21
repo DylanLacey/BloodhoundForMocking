@@ -1,0 +1,31 @@
+proxy/request:
+  next: proxy/upstream_http
+  sidecars:
+    - sidecar/access_logger
+
+proxy/upstream_http:
+  next: proxy/send_back
+
+proxy/send_back:
+  sidecars:
+    - sidecar/access_logger
+    - sidecar/network_metrics_logger
+    - sidecar/fortress_forwarder
+
+sidecar/access_logger:
+  config: {}
+
+sidecar/network_metrics_logger:
+  config: {}
+
+sidecar/fortress_forwarder:
+  config: 
+    url: "https://load2.apifortress.com/app/api/rest/v3/12/mocks/push/raw"
+    headers:
+      x-api-key: "REMOVED"
+      x-secret: "REMOVED"
+      x-mock-domain: "apidemo.load2.apifortress.com"
+    discard_response_headers:
+      - connection
+      - date
+      - transfer-encoding
